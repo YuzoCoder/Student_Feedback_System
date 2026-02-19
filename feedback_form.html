@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Feedback Form</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial;
+            background-color: lightblue;
+            padding: 40px;
+        }
+        form {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        select, textarea, input[type=submit] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        input[type=submit] {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type=submit]:hover {
+            background-color: #555;
+        }
+        
+        h2 {
+            text-align: center;   /* 👈 hii ndiyo inaiweka katikati */
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        select, textarea, input[type=submit] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        input[type=submit] {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type=submit]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <form action="submit_feedback.php" method="POST">
+        <h2>📝 Student Feedback Form</h2>
+
+        <!-- Gender -->
+        <label>Jinsia:</label>
+        <select name="gender" required>
+            <option value="">--Chagua--</option>
+            <option value="Mwanaume">Mwanaume</option>
+            <option value="Mwanamke">Mwanamke</option>
+        </select>
+
+        <!-- Class -->
+        <label>Kidato:</label>
+        <select name="class" required>
+            <option value="">--Chagua Kidato--</option>
+            <option value="Kidato cha 1">Kidato cha 1</option>
+            <option value="Kidato cha 2">Kidato cha 2</option>
+            <option value="Kidato cha 3">Kidato cha 3</option>
+            <option value="Kidato cha 4">Kidato cha 4</option>
+        </select>
+
+        <!-- Rating -->
+        <label>Rating (Uzoefu katika matumizi ya vifaa vya kidijitali):</label>
+        <select name="rating" required>
+            <option value="">--Chagua--</option>
+            <option value="1">1 - Duni</option>
+            <option value="2">2 - Wastani</option>
+            <option value="3">3 - Vizuri</option>
+            <option value="4">4 - Vizuri Sana</option>
+            <option value="5">5 - Bora Sana</option>
+        </select>
+
+        <!-- Q1 -->
+        <label>1. How are you feeling today?(hali yako)</label>
+        <select name="feeling" id="feeling" onchange="toggleSadReason()" required>
+            <option value="">--Select--</option>
+            <option value="😊 Happy">😊 Happy</option>
+            <option value="😔 Sad">😔 Sad</option>
+        </select>
+
+        <!-- Q2 -->
+        <div id="sadReasonDiv" style="display: none;">
+            <label>2. If you're feeling sad, would you like to tell us why?(sababu ya kutokuwa na furaha)</label>
+            <textarea name="sad_reason" rows="3"></textarea>
+        </div>
+
+        <!-- Q3 -->
+        <label>3. Would you like to join another computer lab session in the future?(ungependa kushiriki tena kipindi hiki?)</label>
+        <select name="join_again" id="join_again" onchange="toggleNoJoinReason()" required>
+            <option value="">--Select--</option>
+            <option value="👍 Yes">👍 Yes</option>
+            <option value="👎 No">👎 No</option>
+        </select>
+
+        <!-- Q4 -->
+        <div id="noJoinReasonDiv" style="display: none;">
+            <label>4. If you answered ‘No’, please let us know why:(kwanini usingependa kushiriki kwa mara nyingine?)</label>
+            <textarea name="no_join_reason" rows="3"></textarea>
+        </div>
+
+        <!-- Q5 -->
+        <label>5. Did you enjoy today’s digital learning session?(je umefurahia kujifunza?)</label>
+        <select name="enjoy_session" id="enjoy_session" onchange="toggleEnjoyReason()" required>
+            <option value="">--Select--</option>
+            <option value="😊 Yes">😊 Yes</option>
+            <option value="😕 No">😕 No</option>
+        </select>
+
+        <!-- Q6 -->
+        <div id="enjoyedPartsDiv" style="display: none;">
+            <label>6. If yes, which part did you enjoy the most?(kipindi gani umefurahi zaidi?)</label>
+            <input type="checkbox" name="enjoyed_parts[]" value="🗣️ Interactive activities"> 🗣️ Interactive activities (Mazoezi mbalimbali)<br>
+            <input type="checkbox" name="enjoyed_parts[]" value="❓ Digital quizzes"> ❓ Digital quizzes (Maswali)<br>
+            <input type="checkbox" name="enjoyed_parts[]" value="🎥 Videos and tutorials"> 🎥 Videos and tutorials<br>
+            <input type="checkbox" name="enjoyed_parts[]" value="🕒 Learning at my own pace"> 🕒 Learning at my own pace (kujifunza mwenyewe)<br>
+            <input type="checkbox" name="enjoyed_parts[]" value="💻 Using devices like computers"> 💻 Using devices like computers (Matumizi ya vifaa vya kidijitali)<br>
+        </div>
+
+        <!-- Q7 -->
+        <div id="notEnjoyReasonDiv" style="display: none;">
+            <label>7. If you didn’t enjoy the session, can you tell us why?(kwanini haukufarahia kipindi?)</label>
+            <textarea name="not_enjoy_reason" rows="3"></textarea>
+        </div>
+
+        <!-- Q8 -->
+        <label>8. How often do you use digital tools at school?(Matumizi ya vifaa vya kidijitali shuleni)</label>
+        <select name="usage_frequency" required>
+            <option value="">--Select--</option>
+            <option value="📆 Every day">📆 Every day (Kila siku)</option>
+            <option value="📅 Every week">📅 Every week (Kila wiki)</option>
+            <option value="🕐 Rarely">🕐 Rarely (Nadra)</option>
+            <option value="🚫 Never">🚫 Never (Hakuna)</option>
+        </select>
+
+      <!-- Q9 -->
+<label>9. Which of the digital tools are found at home? 
+(vifaa gani vya kidijitali vinapatikana nyumbani)</label><br>
+
+<input type="checkbox" name="home_tools[]" value="💻 Computer" class="homeTool"> 💻 Computer<br>
+<input type="checkbox" name="home_tools[]" value="📱 Tablet" class="homeTool"> 📱 Tablet<br>
+<input type="checkbox" name="home_tools[]" value="📱 Smartphone" class="homeTool"> 📱 Smartphone<br>
+
+<select name="home_tools_none" id="home_tools_none" onchange="toggleHomeTools()">
+    <option value="">--Select--</option>
+    <option value="❌ Hakuna Kifaa">❌ Hakuna Kifaa</option>
+</select>
+
+<script>
+function toggleHomeTools() {
+    const noneSelected = document.getElementById("home_tools_none").value;
+    const checkboxes = document.querySelectorAll(".homeTool");
+
+    if (noneSelected === "❌ Hakuna Kifaa") {
+        checkboxes.forEach(cb => {
+            cb.checked = false;    // toa tick zote
+            cb.disabled = true;    // disable zisichaguliwe tena
+        });
+    } else {
+        checkboxes.forEach(cb => cb.disabled = false); // enable tena
+    }
+}
+</script>
+
+
+         <!-- Q10 -->
+        <label>10. How often do you use digital tools at home?(Matumizi ya vifaa vya kidijitali nyumbani)</label>
+        <select name="home_usage" required>
+            <option value="">--Select--</option>
+            <option value="📆 Every day">📆 Every day (Kila siku)</option>
+            <option value="📅 Every week">📅 Every week (Kila wiki)</option>
+            <option value="🕐 Rarely">🕐 Rarely (Nadra)</option>
+            <option value="🚫 Never">🚫 Never (Hakuna)</option>
+        </select>
+
+        <!-- Q11 -->
+        <label>11. Which subject do you enjoy learning with digital tools the most?(somoo gani unapendelea kujifunza kwa vifaa vya kidijitali)</label>
+        <select name="fav_subject" required>
+            <option value="">--Select--</option>
+            <option value="➗ Maths">➗ Maths</option>
+            <option value="🔬 Science">🔬 Science</option>
+            <option value="🌍 Social Studies">🌍 Social Studies</option>
+            <option value="🛠️ Life skills or vocational skills">🛠️ Life skills or vocational skills</option>
+        </select>
+
+        <!-- Q12 -->
+        <label>12. Do you feel comfortable using digital tools at school?(uhuru wa kutumia vifaa vya kidijitali shuleni)</label>
+        <select name="comfort_level" id="comfort_level" onchange="toggleComfortReason()" required>
+            <option value="">--Select--</option>
+            <option value="😌 Yes">😌 Yes</option>
+            <option value="😐 A little">😐 A little</option>
+            <option value="🙁 No">🙁 No</option>
+        </select>
+
+        <!-- Q13 -->
+        <div id="comfortReasonDiv" style="display: none;">
+            <label>11. If not, what makes it difficult?(kama hakuna uhuru,toa sababu)</label>
+            <textarea name="comfort_reason" rows="3"></textarea>
+        </div>
+
+        <!-- Q14 -->
+        <label>14. Do teachers help you when using digital tools?(walimu wanasaidia katika matumizi ya vifaa vya kidijitali?)</label>
+        <select name="teachers_support" required>
+            <option value="">--Select--</option>
+            <option value="👍 Yes">👍 Yes</option>
+            <option value="🤔 Sometimes">🤔 Sometimes</option>
+            <option value="👎 No">👎 No</option>
+        </select>
+
+         <!-- Q15 -->
+        <label>15. Do parents help you when using digital tools?(wazazi wanasaidia katika matumizi ya vifaa vya kidijitali nyumbani?)</label>
+        <select name="parents_support" required>
+            <option value="">--Select--</option>
+            <option value="👍 Yes">👍 Yes</option>
+            <option value="🤔 Sometimes">🤔 Sometimes</option>
+            <option value="👎 No">👎 No</option>
+        </select>
+
+        <!-- Q16 -->
+        <label>16. How helpful do you find digital tools for your learning?(umuhimu wa vifaa vya kidijitali katika kujifunza)</label>
+        <select name="helpfulness" required>
+            <option value="">--Select--</option>
+            <option value="🌟 Very helpful">🌟 Very helpful</option>
+            <option value="🙂 A bit helpful">🙂 A bit helpful</option>
+            <option value="🚫 Not helpful">🚫 Not helpful</option>
+        </select>
+
+        <!-- Q17 -->
+        <label>17. Is there anything else you’d like to share with us?(Una maoni yoyote?)</label>
+        <select name="additional_share" id="additional_share" onchange="toggleExtraThoughts()" required>
+            <option value="">--Select--</option>
+            <option value="💬 Yes">💬 Yes</option>
+            <option value="🙅‍♂️ No">🙅‍♂️ No</option>
+        </select>
+
+        <!-- Q18 -->
+        <div id="extraThoughtsDiv" style="display: none;">
+            <label>15. If yes, please write your thoughts here:(andika maoni yako hapa)</label>
+            <textarea name="extra_thoughts" rows="4"></textarea>
+        </div>
+
+        <input type="submit" value="Tuma Maoni">
+    </form>
+
+    <!-- Scripts for logic -->
+    <script>
+        function toggleSadReason() {
+            document.getElementById("sadReasonDiv").style.display =
+                document.getElementById("feeling").value === "😔 Sad" ? "block" : "none";
+        }
+        function toggleNoJoinReason() {
+            document.getElementById("noJoinReasonDiv").style.display =
+                document.getElementById("join_again").value === "👎 No" ? "block" : "none";
+        }
+        function toggleEnjoyReason() {
+            const val = document.getElementById("enjoy_session").value;
+            document.getElementById("enjoyedPartsDiv").style.display = val === "😊 Yes" ? "block" : "none";
+            document.getElementById("notEnjoyReasonDiv").style.display = val === "😕 No" ? "block" : "none";
+        }
+        function toggleComfortReason() {
+            document.getElementById("comfortReasonDiv").style.display =
+                document.getElementById("comfort_level").value === "🙁 No" ? "block" : "none";
+        }
+        function toggleExtraThoughts() {
+            document.getElementById("extraThoughtsDiv").style.display =
+                document.getElementById("additional_share").value === "💬 Yes" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
